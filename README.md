@@ -1,4 +1,4 @@
-(assuems `coins` collection exist on MongoDB)
+(assuems `coins` collection exist on `test` DB [MongoDB])
 
 ```
 yarn

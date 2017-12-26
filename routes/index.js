@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const DAL = require('../DAL')
 
 const NUM_OF_COINS = 10;
 
@@ -13,8 +14,9 @@ router.get('/', function (req, res, next) {
       try {
         const coinsRes = JSON.parse(body);
         const randomCoins = pickRandomCoins(NUM_OF_COINS, coinsRes);
-        console.log(randomCoins);
         res.json(randomCoins);
+        //save the entire 250 coins
+        DAL.upsertCoins(coinsRes);
       } catch (e) {
         res.json([]);
       }
@@ -29,7 +31,6 @@ function pickRandomCoins(numOfCoins, coinsArr) {
     // pick a number between 0 to coins array length
     const position = Math.floor(Math.random() * coinsArr.length);
     if (!pickedCoinsIndex.has(position)) {
-      console.log("position", position);
       pickedCoinsIndex.add(position);
       resArr.push(coinsArr[position]);
     }
